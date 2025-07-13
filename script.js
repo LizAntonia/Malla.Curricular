@@ -8,8 +8,8 @@ const malla = {
     { nombre: "Resolución de Problemas en Álgebra" }
   ],
   "2° Semestre": [
-    { nombre: "Marketing", prerequisitos: ["Resolución de Problemas en Álgebra"] },
-    { nombre: "Finanzas", prerequisitos: ["Economía"] },
+    { nombre: "Marketing" },
+    { nombre: "Finanzas" },
     { nombre: "Contabilidad" },
     { nombre: "Ventas y Servicios" },
     { nombre: "Legislación Tributaria" },
