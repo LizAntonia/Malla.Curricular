@@ -96,13 +96,13 @@ Object.entries(malla).forEach(([semestre, ramos]) => {
       infoDiv.style.display = infoDiv.style.display === "block" ? "none" : "block";
       ramoDiv.classList.toggle("completado");
 
-      if (ramoDiv.classList.contains("completado")) {
+      // Guardar progreso
+      const idx = completadas.indexOf(clave);
+      if (ramoDiv.classList.contains("completado") && idx < 0) {
         completadas.push(clave);
-      } else {
-        const index = completadas.indexOf(clave);
-        if (index > -1) completadas.splice(index, 1);
+      } else if (!ramoDiv.classList.contains("completado") && idx > -1) {
+        completadas.splice(idx, 1);
       }
-
       localStorage.setItem("materiasCompletadas", JSON.stringify(completadas));
     };
 
