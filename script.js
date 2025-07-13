@@ -8,8 +8,8 @@ const malla = {
     { nombre: "Resolución de Problemas en Álgebra" }
   ],
   "2° Semestre": [
-    { nombre: "Marketing" },
-    { nombre: "Finanzas" },
+    { nombre: "Marketing", prerequisitos: "Resolución de Problemas en Álgebra" },
+    { nombre: "Finanzas", prerequisitos: "Economía" },
     { nombre: "Contabilidad" },
     { nombre: "Ventas y Servicios" },
     { nombre: "Legislación Tributaria" },
@@ -82,6 +82,11 @@ Object.entries(malla).forEach(([semestre, ramos]) => {
     ramoDiv.className = "ramo";
     ramoDiv.textContent = ramo.nombre;
 
+    // Si tiene prerequisito, lo oculta si no está completado
+    if (ramo.prerequisitos && !completadas.includes(`${semestre}-${ramo.prerequisitos}`)) {
+      ramoDiv.classList.add("hidden");
+    }
+
     if (completadas.includes(clave)) {
       ramoDiv.classList.add("completado");
     }
@@ -96,14 +101,22 @@ Object.entries(malla).forEach(([semestre, ramos]) => {
       infoDiv.style.display = infoDiv.style.display === "block" ? "none" : "block";
       ramoDiv.classList.toggle("completado");
 
-      // Guardar progreso
-      const idx = completadas.indexOf(clave);
-      if (ramoDiv.classList.contains("completado") && idx < 0) {
+      if (ramoDiv.classList.contains("completado")) {
         completadas.push(clave);
-      } else if (!ramoDiv.classList.contains("completado") && idx > -1) {
-        completadas.splice(idx, 1);
+      } else {
+        const index = completadas.indexOf(clave);
+        if (index > -1) completadas.splice(index, 1);
       }
+
       localStorage.setItem("materiasCompletadas", JSON.stringify(completadas));
+
+      // Mostrar otros ramos si los prerequisitos se completan
+      document.querySelectorAll(".ramo").forEach(r => {
+        const prereq = r.textContent.trim();
+        if (completadas.includes(`${semestre}-${prereq}`)) {
+          r.classList.remove("hidden");
+        }
+      });
     };
 
     semestreDiv.appendChild(ramoDiv);
