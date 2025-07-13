@@ -7,14 +7,26 @@ body {
 h1 {
   text-align: center;
   color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+#contenedor-malla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 }
 
 .semestre {
-  margin-bottom: 30px;
-  border: 1px solid #ccc;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
   padding: 15px;
   border-radius: 8px;
-  background-color: #fff;
+}
+
+.semestre h2 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #2c3e50;
 }
 
 .ramo {
@@ -28,6 +40,12 @@ h1 {
 
 .ramo:hover {
   background: #bbdefb;
+}
+
+.ramo.completado {
+  text-decoration: line-through;
+  color: #888;
+  background-color: #dcedc8;
 }
 
 .info {
