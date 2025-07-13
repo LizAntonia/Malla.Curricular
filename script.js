@@ -66,6 +66,7 @@ const malla = {
 };
 
 const contenedor = document.getElementById("contenedor-malla");
+const completadas = JSON.parse(localStorage.getItem("materiasCompletadas")) || [];
 
 Object.entries(malla).forEach(([semestre, ramos]) => {
   const semestreDiv = document.createElement("div");
@@ -75,10 +76,15 @@ Object.entries(malla).forEach(([semestre, ramos]) => {
   titulo.textContent = semestre;
   semestreDiv.appendChild(titulo);
 
-  ramos.forEach((ramo, i) => {
+  ramos.forEach((ramo) => {
+    const clave = `${semestre}-${ramo.nombre}`;
     const ramoDiv = document.createElement("div");
     ramoDiv.className = "ramo";
     ramoDiv.textContent = ramo.nombre;
+
+    if (completadas.includes(clave)) {
+      ramoDiv.classList.add("completado");
+    }
 
     const infoDiv = document.createElement("div");
     infoDiv.className = "info";
@@ -88,6 +94,16 @@ Object.entries(malla).forEach(([semestre, ramos]) => {
 
     ramoDiv.onclick = () => {
       infoDiv.style.display = infoDiv.style.display === "block" ? "none" : "block";
+      ramoDiv.classList.toggle("completado");
+
+      if (ramoDiv.classList.contains("completado")) {
+        completadas.push(clave);
+      } else {
+        const index = completadas.indexOf(clave);
+        if (index > -1) completadas.splice(index, 1);
+      }
+
+      localStorage.setItem("materiasCompletadas", JSON.stringify(completadas));
     };
 
     semestreDiv.appendChild(ramoDiv);
