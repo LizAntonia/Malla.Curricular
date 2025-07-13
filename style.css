@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.semestre {
+  margin-bottom: 30px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.ramo {
+  padding: 10px;
+  margin: 5px 0;
+  background: #e3f2fd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ramo:hover {
+  background: #bbdefb;
+}
+
+.info {
+  display: none;
+  padding: 5px 15px;
+  background: #e0f7fa;
+  border-left: 4px solid #00acc1;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
