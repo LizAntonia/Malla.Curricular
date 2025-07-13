@@ -8,8 +8,8 @@ const malla = {
     { nombre: "Resolución de Problemas en Álgebra" }
   ],
   "2° Semestre": [
-    { nombre: "Marketing" },
-    { nombre: "Finanzas" },
+    { nombre: "Marketing", prerequisitos: ["Resolución de Problemas en Álgebra"] },
+    { nombre: "Finanzas", prerequisitos: ["Economía"] },
     { nombre: "Contabilidad" },
     { nombre: "Ventas y Servicios" },
     { nombre: "Legislación Tributaria" },
@@ -84,28 +84,35 @@ function renderMalla() {
     semestreDiv.appendChild(titulo);
 
     ramos.forEach((ramo) => {
-      if (!cumpleRequisitos(ramo.prerequisitos)) return; // No mostrar si no cumple
-
       const ramoDiv = document.createElement("div");
       ramoDiv.className = "ramo";
       ramoDiv.textContent = ramo.nombre;
 
+      // Hacer que solo puedas tachar si cumple los prerequisitos
+      if (!cumpleRequisitos(ramo.prerequisitos)) {
+        ramoDiv.classList.add("no-completable");
+      }
+
+      // Si el ramo ya está completado
       if (completadas.includes(ramo.nombre)) {
         ramoDiv.classList.add("completado");
       }
 
       ramoDiv.onclick = () => {
-        ramoDiv.classList.toggle("completado");
+        // Solo tachar si está permitido (cumple con prerequisitos)
+        if (!ramoDiv.classList.contains("no-completable")) {
+          ramoDiv.classList.toggle("completado");
 
-        const nombre = ramo.nombre;
-        if (completadas.includes(nombre)) {
-          completadas = completadas.filter(r => r !== nombre);
-        } else {
-          completadas.push(nombre);
+          const nombre = ramo.nombre;
+          if (completadas.includes(nombre)) {
+            completadas = completadas.filter(r => r !== nombre);
+          } else {
+            completadas.push(nombre);
+          }
+
+          localStorage.setItem("materiasCompletadas", JSON.stringify(completadas));
+          renderMalla(); // Vuelve a renderizar para activar nuevas materias
         }
-
-        localStorage.setItem("materiasCompletadas", JSON.stringify(completadas));
-        renderMalla(); // Volver a renderizar para mostrar nuevos habilitados
       };
 
       semestreDiv.appendChild(ramoDiv);
